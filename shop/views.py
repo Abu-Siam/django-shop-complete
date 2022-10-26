@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.models import Group, User
+from django.shortcuts import render, redirect
 from django.views import View
 
+from shop.forms import SignUpForm
 from shop.models import Product
 
 
@@ -56,8 +59,28 @@ def mobile(request, data=None):
 def login(request):
     return render(request, 'app/login.html')
 
-def customerregistration(request):
-    return render(request, 'app/customerregistration.html')
+# def customerregistration(request):
+#     return render(request, 'app/customerregistration.html')
+class SignUpView(View):
+    def get(self, request):
+        form = SignUpForm()
+        return render(request, 'app/customerregistration.html',{'form':form})
+    def post(self, request):
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            messages.success(request, 'Congratulations!! Registered Successfully')
+            user={}
+            user['Username'] = form.cleaned_data['username']
+            user['Email'] = form.cleaned_data['email']
+            user['Password'] = form.cleaned_data['password1']
+            user['is_staff'] = True
+            user = User.objects.create_user(user['Username'], user['Email'], user['Password'], is_staff=user['is_staff'])
+            group = Group.objects.get(name='Tour Guide')
+            user.groups.add(group)
+            user.save()
+            return redirect('home')
+
+        return render(request, 'app/customerregistration.html',{'form':form})
 
 def checkout(request):
     return render(request, 'app/checkout.html')
