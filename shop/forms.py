@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django.forms import fields
 
@@ -19,5 +19,6 @@ class SignUpForm(UserCreationForm):
         }
 
 class LoginForm(AuthenticationForm):
-    email = forms.EmailField(required=True,max_length=254, help_text='Required. Inform a valid email address.', widget=forms.EmailInput(attrs={'class': 'form-control','autofocus':True}),label='Email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True, 'class': 'form-control'}),label= 'Email')
+    # email = forms.EmailField(required=True,max_length=254, help_text='Required. Inform a valid email address.', widget=forms.EmailInput(attrs={'class': 'form-control','autofocus':True}),label='Email')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control','autocomplete':'current-password'}))

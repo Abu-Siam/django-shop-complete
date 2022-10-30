@@ -56,8 +56,8 @@ def mobile(request, data=None):
 
     return render(request, 'app/mobile.html',{'mobiles':mobiles})
 
-def login(request):
-    return render(request, 'app/login.html')
+# def login(request):
+#     return render(request, 'app/login.html')
 
 # def customerregistration(request):
 #     return render(request, 'app/customerregistration.html')
@@ -82,5 +82,10 @@ class SignUpView(View):
 
         return render(request, 'app/customerregistration.html',{'form':form})
 
+# class SignIn(View):
+#     def get(self, request):
+#         return render(request, 'app/login.html')
+#     def post(self, request):
+#         return render(request, 'app/login.html')
 def checkout(request):
     return render(request, 'app/checkout.html')
